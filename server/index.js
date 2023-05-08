@@ -25,13 +25,7 @@ function generateSecret() {
   return crypto.randomBytes(32).toString('hex');
 }
 
-// function localVariables(req, res, next){
-//   req.app.locals = {
-//     OTP : null,
-//     otpResetSession : false
-//   }
-//   next()
-// }
+
 
 // Use an environment variable to store the secret, or generate a new one if it doesn't exist
 const secret = process.env.SESSION_SECRET || generateSecret();
@@ -48,7 +42,7 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(localVariables);
+
 
 app.use(
   session({
@@ -120,8 +114,8 @@ app.post('/register', upload.single('picture'), (req, res) => {
       } else {
         // If the username is available, insert the new user into the database
         db.query(
-        "INSERT INTO user (firstName, lastName, email, password, picture) VALUES (?, ?, ?, ?, ?)",
-        [firstName, lastName, email, hash, picture],
+        "INSERT INTO user (firstName, lastName, email, password, picture, privilege) VALUES (?, ?, ?, ?, ?, ?)",
+        [firstName, lastName, email, hash, picture, "staff"],
         (err, result) => {
             if (err) {
               console.log('Error inserting user into database:', err);
@@ -132,19 +126,6 @@ app.post('/register', upload.single('picture'), (req, res) => {
         });
       }
     });
-
-
-    // db.query(
-    //   "INSERT INTO user (firstName, lastName, email, password, picture) VALUES (?, ?, ?, ?, ?)",
-    //   [firstName, lastName, email, hash, picture],
-    //   (err, result) => {
-    //     if (err) {
-    //       console.log('Error inserting user into database:', err);
-    //       return res.status(500).send({ error: 'Internal Server Error' });
-    //     }
-    //     res.status(200).send({ message: 'User registered successfully' });
-    //   }
-    // );
   });
 });
 
@@ -369,45 +350,6 @@ app.put('/reset-password', async (req, res) => {
     return res.status(401).send({ error });
   }
 });
-
-
-// Endpoint to handle requests from frontend
-app.get('/random-image/:searchTerm', async (req, res) => {
-  const { searchTerm } = req.params;
-  const apiKey = 'GonhbRYylIx2aS8Kz8GnXNQwGOhhDHgp2tb8VC4CatVgZveb0HK1PGqi';
-
-  try {
-    // Fetch a random image 
-    const response = await axios.get(`https://api.pexels.com/v1/search?query=${searchTerm}&per_page=1`, {
-      headers: {
-        Authorization: apiKey,
-      },
-    });
-    
-    // console.log(response.data.photos[0].src.original);
-    // Send image URL to frontend
-    res.send(response.data.photos[0].src.original);
-
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error fetching random image');
-  }
-});
-
-async function getRandomImageUrl(searchTerm) {
-  const apiKey = 'GonhbRYylIx2aS8Kz8GnXNQwGOhhDHgp2tb8VC4CatVgZveb0HK1PGqi';
-  try {
-    const response = await axios.get(`https://api.pexels.com/v1/search?query=${searchTerm}&per_page=1`, {
-      headers: {
-        Authorization: apiKey,
-      },
-    });
-    return response.data.photos[0].src.original;
-  } catch (error) {
-    console.error(error);
-    throw new Error('Error fetching random image');
-  }
-}
 
 app.listen(8880, () => {
   console.log("Connected to backend.");

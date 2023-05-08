@@ -4,11 +4,13 @@ import {
   PersonOutline,
   ShoppingBagOutlined,
   MenuOutlined,
-  SearchOutlined,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { shades } from "../../theme";
 import { setIsCartOpen } from "../../state";
+import Popup from "./Popup";
+import ReceiptDetails from "../checkout/ReceiptDetails";
+
 
 function Navbar() {
   const navigate = useNavigate();
@@ -72,9 +74,8 @@ function Navbar() {
               <ShoppingBagOutlined />
             </IconButton>
           </Badge>
-          <IconButton sx={{ color: "black" }}>
-            <MenuOutlined />
-          </IconButton>
+          {/* <ReceiptDetails/> */}
+          <Popup/>
         </Box>
       </Box>
     </Box>
