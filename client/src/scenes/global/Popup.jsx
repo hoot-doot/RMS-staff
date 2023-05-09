@@ -18,7 +18,7 @@ export default function Popup() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8800/login");
+        const response = await axios.get("http://localhost:8880/login");
         if (response.data.loggedIn === true) {
           setUser(response.data.user[0].firstName);
           setPicture(response.data.user[0].picture);

@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { shades } from "../../theme";
 import { setIsCartOpen } from "../../state";
 import Popup from "./Popup";
-import ReceiptDetails from "../checkout/ReceiptDetails";
+
 
 
 function Navbar() {
@@ -50,9 +50,6 @@ function Navbar() {
           columnGap="20px"
           zIndex="2"
         >
-          <IconButton sx={{ color: "black" }}>
-            <PersonOutline />
-          </IconButton>
           <Badge
             badgeContent={cart.length}
             color="secondary"
@@ -74,7 +71,6 @@ function Navbar() {
               <ShoppingBagOutlined />
             </IconButton>
           </Badge>
-          {/* <ReceiptDetails/> */}
           <Popup/>
         </Box>
       </Box>

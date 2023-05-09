@@ -6,6 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import styled from "@emotion/styled";
 import { shades } from "../../theme";
+import PrintButton from '../checkout/PrintButton';
 import {
   decreaseCount,
   increaseCount,
@@ -13,6 +14,7 @@ import {
   setIsCartOpen,
 } from "../../state";
 import { useNavigate } from "react-router-dom";
+import Popup from '../checkout/Popup';
 
 const FlexBox = styled(Box)`
   display: flex;
@@ -29,13 +31,14 @@ const CartMenu = () => {
   const totalPrice = cart.reduce((total, item) => {
     return total + item.count * item.cost;
   }, 0);
+  const roundedTotalPrice = totalPrice.toFixed(2);
 
   return (
     <Box
       display={isCartOpen ? "block" : "none"}
       backgroundColor="rgba(0, 0, 0, 0.4)"
       position="fixed"
-      zIndex={10}
+      zIndex={1}
       width="100%"
       height="100%"
       left="0"
@@ -53,7 +56,7 @@ const CartMenu = () => {
         <Box padding="30px" overflow="auto" height="100%">
           {/* HEADER */}
           <FlexBox mb="15px">
-            <Typography variant="h3">SHOPPING BAG ({cart.length})</Typography>
+            <Typography variant="h3">Order ({cart.length})</Typography>
             <IconButton onClick={() => dispatch(setIsCartOpen({}))}>
               <CloseIcon />
             </IconButton>
@@ -126,24 +129,9 @@ const CartMenu = () => {
           <Box m="20px 0">
             <FlexBox m="20px 0">
               <Typography fontWeight="bold">SUBTOTAL</Typography>
-              <Typography fontWeight="bold">${totalPrice}</Typography>
+              <Typography fontWeight="bold">${roundedTotalPrice}</Typography>
             </FlexBox>
-            <Button
-              sx={{
-                backgroundColor: shades.primary[400],
-                color: "white",
-                borderRadius: 0,
-                minWidth: "100%",
-                padding: "20px 40px",
-                m: "20px 0",
-              }}
-              onClick={() => {
-                navigate("/");
-                dispatch(setIsCartOpen({}));
-              }}
-            >
-              CHECKOUT
-            </Button>
+            <Popup/>
           </Box>
         </Box>
       </Box>

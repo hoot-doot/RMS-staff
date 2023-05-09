@@ -51,7 +51,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      expires: 60 * 60 * 600,
+      expires: 86400000,
     },
   })
 );
@@ -106,23 +106,37 @@ app.post('/register', upload.single('picture'), (req, res) => {
       };
       console.log(results);
 
-  
       if (results.length > 0) {
-        // If the username is taken, return an error message
+        // If the email is already used, return an error message
         console.log(results);
         res.send({ message: "Email already used!" });
       } else {
-        // If the username is available, insert the new user into the database
-        db.query(
-        "INSERT INTO user (firstName, lastName, email, password, picture, privilege) VALUES (?, ?, ?, ?, ?, ?)",
-        [firstName, lastName, email, hash, picture, "staff"],
-        (err, result) => {
-            if (err) {
-              console.log('Error inserting user into database:', err);
-              return res.status(500).send({ error: 'Internal Server Error' });
-            }
-          // Return a success message
-          res.status(201).json({ message: 'User created successfully' });
+        // Check if the email exists in the "team" table
+        const teamQuery = `SELECT * FROM team WHERE email='${email}'`;
+        db.query(teamQuery, (err, teamResults) => {
+          if (err) {
+            return res.status(500).json({message: 'Server error'});
+          };
+          console.log(teamResults);
+
+          if (teamResults.length > 0) {
+            // If the email exists in the "team" table, insert the new user into the database
+            db.query(
+              "INSERT INTO user (firstName, lastName, email, password, picture, privilege) VALUES (?, ?, ?, ?, ?, ?)",
+              [firstName, lastName, email, hash, picture, "staff"],
+              (err, result) => {
+                if (err) {
+                  console.log('Error inserting user into database:', err);
+                  return res.status(500).send({ error: 'Internal Server Error' });
+                }
+                // Return a success message
+                res.status(201).json({ message: 'User created successfully' });
+              }
+            );
+          } else {
+            // If the email doesn't exist in the "team" table, return an error message
+            res.send({ message: "Email not found in team!" });
+          }
         });
       }
     });

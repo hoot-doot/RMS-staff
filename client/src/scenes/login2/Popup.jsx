@@ -261,15 +261,15 @@ export default function Popup() {
             {step === 2 && (
               <Box>
                 <Typography variant="h6" sx={{ mb: 2, mt: 2 }}>
-                  Enter the OTP sent to your email
+                  Enter the OTP sent to your email, Check your spam folder if you don't see it.
                 </Typography>
                 <form onSubmit={handleOtpSubmit}>
                   <TextField
                     label="OTP"
                     variant="outlined"
                     value={otp}
-                    inputProps={{ style: { width: 300 } }} // font size of input text
-                    InputLabelProps={{ style: { fontSize: 15 } }} // font size of input label
+                    inputProps={{ style: { width: 300 } }} 
+                    InputLabelProps={{ style: { fontSize: 15 } }}
                     onChange={(event) => setOtp(event.target.value)}
                     sx={{ mb: 2 }}
                   />
