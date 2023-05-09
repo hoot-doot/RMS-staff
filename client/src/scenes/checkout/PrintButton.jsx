@@ -24,7 +24,7 @@ const PrintButton = () => {
   });
 
   return (
-    <Box>
+    <Box height={500} width={500}>
       <Box ref={componentRef} mt={2}>
         <ReceiptDetails />
       </Box>
@@ -52,12 +52,6 @@ const PrintButton = () => {
         >
           Print Receipt
         </Button>
-        <img
-          alt="profile-user"
-          width="100%"
-          height="100%"
-          src={`../../assets/qr.jpg`}
-        />
       </Box>
     </Box>
   );

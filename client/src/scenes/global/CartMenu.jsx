@@ -15,6 +15,7 @@ import {
 } from "../../state";
 import { useNavigate } from "react-router-dom";
 import Popup from '../checkout/Popup';
+import Popup2 from '../checkout/Popup2';
 
 const FlexBox = styled(Box)`
   display: flex;
@@ -131,7 +132,10 @@ const CartMenu = () => {
               <Typography fontWeight="bold">SUBTOTAL</Typography>
               <Typography fontWeight="bold">${roundedTotalPrice}</Typography>
             </FlexBox>
+            <Box display={"grid"} gridTemplateColumns={"0.2fr 1.1fr"} gridGap={"1px"}>
+            <Popup2/>
             <Popup/>
+            </Box>
           </Box>
         </Box>
       </Box>

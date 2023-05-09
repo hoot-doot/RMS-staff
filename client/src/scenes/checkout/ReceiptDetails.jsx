@@ -37,7 +37,7 @@ const ReceiptDetails = () => {
   }/${current.getFullYear()}`;
 
   return (
-    <Box display={"flex"} flexDirection= "column" alignItems="center" justifyContent="center">
+    <Box display={"flex"} flexDirection= "column" alignItems="center" >
       <Typography variant="h2" mb={2}>
         Cosmo Cafe
       </Typography>
