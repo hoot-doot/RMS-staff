@@ -33,7 +33,7 @@ export default function Popup() {
 
   const logout = () => {
     try {
-      const response = axios.get("http://localhost:8800/logout");
+      const response = axios.get("http://localhost:8880/logout");
     } catch (error) {
       console.log(error);
     }
